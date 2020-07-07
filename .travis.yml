@@ -14,13 +14,13 @@ install:
 - conda activate test-environment
 
 script:
-- pyinstaller -F hash_password.py
+- pyinstaller -F hash-password.py
 
 deploy:
   provider: releases
   token:
     secure: R+qtMiJT8tskolkTynAQ5gOBnBBrV/LS36dkt+rQXUDoFBBZYjj03yhKUvNoUtWWMgA1I+5n/+cYPUUKxTJY74db0MaWlFqM47ps2zxgMeaN4h2T0DNDJtQ6eoOr4iMMG1gmFtt1ZGj+H3HBM2rFsnMJNjY318erl0qZq/+jhoid6GmuTglpsFYdxxua3z4d3UYxSiCNLsDtFvdlFRC3dqPlrWxxdbyUpOobn45id+DQn4ZXMA7kuLJDkFFDmHHhzJQsCQO60wmKfDryxUTB24SuV2uAWj3Ld3apVbPoLZR5ExxxR7yBRVDrUUk0180JIHkcXwt32t/OWYPfNcCTSFN7Wg7i3/Uys3BDEYG6ew6Yf+Qo2gD9BlC+N1ryFj+dXGahLYibsck9xhsdHZsK5/Tgb8g9LH2HVMaEYuHZFhoPggmNgttotzmUZ5hTAFMH/5kw5yZukR4uS/YbFmCCad2iKM/GKZnDiclDug40tqdiM8w1CJsDiOuqlMVQ9fEcg7uvA/lA+zKzwcCmaTgEusNrBgz8jS+x9kcw4mzfmtEa9Cy4oNsEO1EgCNHDP8QPXpUMCfj/Vnh7K4sRmxqai05Lv3RGMnQSHECQhb+2FEXu5D5HePvIgUGfpkxOqBznQm2n8ivEysijtXGlxfAFKaNsNaeuwMc6OQ0doEnNchM=
-  file: dist/hash_password
+  file: dist/hash-password
   skip_cleanup: true
   on:
     tags: true
