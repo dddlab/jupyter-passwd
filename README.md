@@ -8,9 +8,17 @@ When running containerized Jupyter notebook server from Jupyter docker-stacks, a
 
 This standalone python utility, created from [pyinstaller](https://github.com/pyinstaller/pyinstaller), can create a hashed password on a system without any python installed (e.g. a fresh VM instance).
 
-## Usage
+## Command Line Usage
 ```bash
-wget https://github.com/dddlab/jupyter-passwd/releases/download/v0.0.1.6/hash-password
+wget https://github.com/dddlab/jupyter-passwd/releases/download/v0.1.1/hash-password
 chmod u+x hash-password
 ./hash-password
+```
+
+## Environment Variable Usage
+To save hashed password in a bash environment variable,
+```bash
+wget https://github.com/dddlab/jupyter-passwd/releases/download/v0.1.1/hash-password
+chmod u+x hash-password
+PASSWD=$(hash-password | tail -n1)
 ```
