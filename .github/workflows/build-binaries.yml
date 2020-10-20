@@ -54,7 +54,10 @@ jobs:
       - name: Dump matrix context
         env:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: |
+					echo "$RUNNER_CONTEXT"
+					echo "$MATRIX_CONTEXT"
 
       - name: Checkout
         uses: actions/checkout@v2
