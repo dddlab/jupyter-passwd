@@ -31,6 +31,15 @@ jobs:
           draft: true
           prerelease: false
 
+      - name: Output Release URL File
+        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
+
+      - name: Save Release URL File for publish
+        uses: actions/upload-artifact@v1
+        with:
+          name: release_url
+          path: release_url.txt
+
   build-binaries:
     name: Ex1 (${{ matrix.python-version }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -58,13 +67,25 @@ jobs:
           conda install -y pyinstaller jupyter
           pyinstaller -F hash-password.py
 
+      - name: Build
+        run: make
+      - name: Load Release URL File from release job
+        uses: actions/download-artifact@v1
+        with:
+          name: release_url
+      - name: Get Release File Name & Upload URL
+        id: get_release_info
+        run: |
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
+
       - name: Upload environment.yml
         id: upload-environment-yml
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
           asset_path: dist/hash-password
           asset_name: hash-password
           asset_content_type: application/octet-stream
