@@ -1,13 +1,40 @@
 name: Build notebook image
 
-on: push
-    # tags:
-    #   - 'v*'
+on: 
+  push:
+    branches:
+      build
+    tags:
+      - 'v*'
 
 jobs:
-  example-1:
+
+  create-release:
+    # https://github.com/actions/upload-release-asset
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            * Update all actions
+          draft: true
+          prerelease: false
+
+  build-binaries:
     name: Ex1 (${{ matrix.python-version }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    needs: create-release
     strategy:
       fail-fast: false
       matrix:
@@ -30,20 +57,6 @@ jobs:
           conda info
           conda install -y pyinstaller jupyter
           pyinstaller -F hash-password.py
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            * Update all actions
-          draft: false
-          prerelease: false
 
       - name: Upload environment.yml
         id: upload-environment-yml
