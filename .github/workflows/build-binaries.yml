@@ -67,12 +67,11 @@ jobs:
           conda install -y pyinstaller jupyter
           pyinstaller -F hash-password.py
 
-      - name: Build
-        run: make
       - name: Load Release URL File from release job
         uses: actions/download-artifact@v1
         with:
           name: release_url
+
       - name: Get Release File Name & Upload URL
         id: get_release_info
         run: |
