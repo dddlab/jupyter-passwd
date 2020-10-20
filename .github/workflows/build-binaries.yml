@@ -41,15 +41,20 @@ jobs:
           path: release_url.txt
 
   build-binaries:
-    name: Ex1 (${{ matrix.python-version }}, ${{ matrix.os }})
+    name: build-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     needs: create-release
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        os: ["ubuntu-latest", "macos-latest"]
         python-version: ["3.7"]
     steps:
+
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
 
       - name: Checkout
         uses: actions/checkout@v2
