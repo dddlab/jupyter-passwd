@@ -47,8 +47,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # os: ["ubuntu-latest", "macos-latest", "windows-latest"]
-        os: ["ubuntu-latest"]
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
         python-version: ["3.7"]
     steps:
 
@@ -86,5 +85,5 @@ jobs:
         with:
           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
           asset_path: dist/hash-password
-          asset_name: hash-password
+          asset_name: hash-password-${{ matrix.os }}
           asset_content_type: application/octet-stream
