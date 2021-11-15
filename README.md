@@ -1,24 +1,26 @@
-# jupyter-passwd
+# Jupyter Notebook Password Hashing Utility
 
-[![Build Status](https://travis-ci.com/dddlab/jupyter-passwd.svg?branch=master)](https://travis-ci.com/dddlab/jupyter-passwd)
+[![Publish Docker image](https://github.com/dddlab/jupyter-passwd/actions/workflows/build.yml/badge.svg)](https://github.com/dddlab/jupyter-passwd/actions/workflows/build.yml)
 
-Utility for hashing Jupyter notebook password on linux.
+When running Jupyter notebook server, a [hashed password](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html#preparing-a-hashed-password) can be provided to secure the notebook server: https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#notebook-options.
 
-When running containerized Jupyter notebook server from Jupyter docker-stacks, a [hashed password](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html#preparing-a-hashed-password) can be provided to secure the server: https://jupyter-docker-stacks.readthedocs.io/en/latest/using/common.html#notebook-options.
+This Docker container image will create a hashed password on a system without Jupyter notebook installed (e.g. a fresh VM instance).
 
-This standalone python utility, created from [pyinstaller](https://github.com/pyinstaller/pyinstaller), can create a hashed password on a system without any python installed (e.g. a fresh VM instance).
+## Command line input
 
-## Command Line Usage
+If hashing a password to manually paste into a script, execute `hash-password.sh` script from the command line.
 ```bash
-wget https://github.com/dddlab/jupyter-passwd/releases/download/v0.1.1/hash-password
-chmod u+x hash-password
-./hash-password
+curl https://raw.githubusercontent.com/dddlab/jupyter-passwd/main/hash-password.sh \
+    -o hash-password.sh && \
+    chmod +x hash-password.sh && \
+    ./hash-password.sh
 ```
 
 ## Environment Variable Usage
-To save hashed password in a bash environment variable,
+
+If hashing a password in a shell script that will assign the hashed password to an environment variable, execute using a line similar to the following:
 ```bash
-wget https://github.com/dddlab/jupyter-passwd/releases/download/v0.1.1/hash-password
-chmod u+x hash-password
-PASSWD=$(hash-password | tail -n1)
+curl https://raw.githubusercontent.com/dddlab/jupyter-passwd/main/hash-password.sh \
+    -o hash-password.sh
+PASSWD=$(./hash-password)
 ```

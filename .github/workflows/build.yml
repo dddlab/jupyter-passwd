@@ -8,6 +8,7 @@ on:
       - 'v*'
   pull_request:
     branches:
+      - '*'
 
 env:
   REGISTRY: ghcr.io
@@ -46,6 +47,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Test
+      - name: Generate test password with new container
         run: |
            PASSWORD='test' IMAGE_TAG=${{ steps.meta.outputs.tags }} ./hash-password.sh
