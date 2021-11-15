@@ -36,7 +36,7 @@ function password_input {
 password_input
 
 HASHED=$(\
-    docker run --rm ghcr.io/dddlab/jupyter-passwd:container \
+    docker run --rm ghcr.io/dddlab/jupyter-passwd:main \
     python -c \
     "from notebook.auth import passwd; \
     print(passwd('$PASSWORD', 'sha1'))")
