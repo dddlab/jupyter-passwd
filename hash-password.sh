@@ -1,5 +1,10 @@
 #!/bin/bash
 
+DEFAULT_PASSWORD=${DEFAULT_PASSWORD:-dddlab}
+IMAGE=${IMAGE:-ghcr.io/dddlab/jupyter-passwd}
+TAG=${TAG:-latest}
+IMAGE_TAG=${IMAGE_TAG:-${IMAGE}:${TAG}}
+
 function password_input {
 
     N_TRIES=1
@@ -23,20 +28,27 @@ function password_input {
             printf "\n" >&2
             return
         else
-                printf "\nEntered passwords are not equal\n"
+            printf "\nEntered passwords are not equal\n"
             ((N_TRIES++))
         fi
     done
 
-    # default password
-    PASSWORD='dddlab'
-        echo "Entered passwords are not equal (using default password, '$PASSWORD')"
+    PASSWORD="$DEFAULT_PASSWORD"    # use default password
+    echo "Entered passwords are not equal"
+    echo "Using default password, '$DEFAULT_PASSWORD'"
+
 }
 
-password_input
+if [[ -z ${PASSWORD} ]];
+then
+    password_input
+else 
+    echo "Using PASSWORD variable: '$PASSWORD'"
+    echo "Container image: ${IMAGE_TAG}"
+fi
 
 HASHED=$(\
-    docker run --rm ghcr.io/dddlab/jupyter-passwd:main \
+    docker run --rm ${IMAGE_TAG} \
     python -c \
     "from notebook.auth import passwd; \
     print(passwd('$PASSWORD', 'sha1'))")
